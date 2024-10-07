@@ -18,10 +18,6 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.12.1" />
-    <PackageReference Include="GitVersion.MsBuild" Version="6.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
 </Project>
