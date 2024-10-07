@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1</TargetFrameworks>
+    <Nullable>enable</Nullable>
+	  <Authors>Miroslav Adamec</Authors>
+	  <Company>Madev</Company>
+	  <Description>Set of common utility classes related to http communication</Description>
+	  <PackageProjectUrl>https://github.com/madev/Madev.Utils</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/madev/Madev.Utils</RepositoryUrl>
+	  <PackageTags>mirecad madev http tools utils extensions</PackageTags>
+	  <PackageIconUrl>https://madevfiles.blob.core.windows.net/$web/Madev/madev-icon.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="HttpClientHandlers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.12.1" />
+    <PackageReference Include="GitVersion.MsBuild" Version="6.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
