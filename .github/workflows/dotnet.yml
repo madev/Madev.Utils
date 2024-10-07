@@ -1,0 +1,40 @@
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        project:
+          - src/Madev.Utils.Infrastructure.Http/Madev.Utils.Infrastructure.Http.csproj
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.x'
+
+    - name: Restore dependencies
+      run: dotnet restore ${{ matrix.project }}
+
+    - name: Build the project
+      run: dotnet build ${{ matrix.project }} --configuration Release --no-restore
+
+    - name: Pack the project
+      run: dotnet pack ${{ matrix.project }} --configuration Release --no-build --output ./nupkgs
+
+    - name: Publish to NuGet.org
+      if: github.ref == 'refs/heads/master'
+      run: dotnet nuget push ./nupkgs/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
