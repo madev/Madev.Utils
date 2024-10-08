@@ -36,14 +36,13 @@ jobs:
     - name: Determine Version
       uses: gittools/actions/gitversion/execute@v3.0.0
       with:
-        updateAssemblyInfo: true
         useConfigFile: true
 
     - name: Restore dependencies
       run: dotnet restore ${{ matrix.project }}
 
     - name: Build the project
-      run: dotnet build ${{ matrix.project }} --configuration Release --no-restore
+      run: dotnet build ${{ matrix.project }} --configuration Release --no-restore /property:Version=${{ env.fullSemVer }}
 
     - name: Pack the project
       run: dotnet pack ${{ matrix.project }} --configuration Release --no-build --output ./nupkgs
