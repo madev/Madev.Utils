@@ -45,7 +45,7 @@ jobs:
       run: dotnet build ${{ matrix.project }} --configuration Release --no-restore /property:Version=${{ env.fullSemVer }}
 
     - name: Pack the project
-      run: dotnet pack ${{ matrix.project }} --configuration Release --no-build --output ./nupkgs
+      run: dotnet pack ${{ matrix.project }} --configuration Release --no-build --output ./nupkgs /p:Version=${{ env.fullSemVer }}
 
     - name: Publish to NuGet.org
       if: github.ref == 'refs/heads/master'
