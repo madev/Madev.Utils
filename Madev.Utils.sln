@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Madev.Utils.Infrastructure.Http", "src\Madev.Utils.Infrastructure.Http\Madev.Utils.Infrastructure.Http.csproj", "{26CD570D-534F-4D45-8832-20053201B425}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Madev.Utils.Infrastructure.Http", "src\Madev.Utils.Infrastructure.Http\Madev.Utils.Infrastructure.Http.csproj", "{26CD570D-534F-4D45-8832-20053201B425}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Madev.Utils.Infrastructure.Services.Mailing", "src\Madev.Utils.Infrastructure.Services.Mailing\Madev.Utils.Infrastructure.Services.Mailing.csproj", "{AB612E02-DA20-4550-B830-7A871C24EA45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Madev.Utils.Infrastructure.Services.Mailing.MsGraph", "src\Madev.Utils.Infrastructure.Services.Mailing.MsGraph\Madev.Utils.Infrastructure.Services.Mailing.MsGraph.csproj", "{2BBB3A20-6B55-45F4-9BAD-29536B103C12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Madev.Utils.Infrastructure.Services.Mailing.Mailkit", "src\Madev.Utils.Infrastructure.Services.Mailing.Mailkit\Madev.Utils.Infrastructure.Services.Mailing.Mailkit.csproj", "{515D375F-2A74-4DD8-B82F-DB066532B6D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{26CD570D-534F-4D45-8832-20053201B425}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26CD570D-534F-4D45-8832-20053201B425}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26CD570D-534F-4D45-8832-20053201B425}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB612E02-DA20-4550-B830-7A871C24EA45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB612E02-DA20-4550-B830-7A871C24EA45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB612E02-DA20-4550-B830-7A871C24EA45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB612E02-DA20-4550-B830-7A871C24EA45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BBB3A20-6B55-45F4-9BAD-29536B103C12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BBB3A20-6B55-45F4-9BAD-29536B103C12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BBB3A20-6B55-45F4-9BAD-29536B103C12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BBB3A20-6B55-45F4-9BAD-29536B103C12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{515D375F-2A74-4DD8-B82F-DB066532B6D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{515D375F-2A74-4DD8-B82F-DB066532B6D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{515D375F-2A74-4DD8-B82F-DB066532B6D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{515D375F-2A74-4DD8-B82F-DB066532B6D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
