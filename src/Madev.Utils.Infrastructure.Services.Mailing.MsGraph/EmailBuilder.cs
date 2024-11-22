@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.Graph;
+using Microsoft.Graph.Models;
 
 namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
 {
@@ -23,7 +23,7 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
                 {
                     Address = x
                 }
-            });
+            }).ToList();
             return this;
         }
 
@@ -45,7 +45,7 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
 
         public EmailBuilder Attachments(IEnumerable<IEmailAttachment> attachments)
         {
-            var fileAttachments = new MessageAttachmentsCollectionPage();
+            var fileAttachments = new List<Attachment>();
             foreach (var attachment in attachments)
             {
                 fileAttachments.Add(ConvertToFileAttachment(attachment));
@@ -66,7 +66,7 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
                 FilepathEmailAttachment att => new FileAttachment
                 {
                     Name = Path.GetFileName(att.Path),
-                    ContentBytes = System.IO.File.ReadAllBytes(att.Path),
+                    ContentBytes = File.ReadAllBytes(att.Path),
                     ContentType = "application/octet-stream"
                 },
                 _ => throw new InvalidOperationException("Unknown attachment type.")

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Graph.Models;
+using Microsoft.Graph.Users.Item.SendMail;
 
 namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
 {
@@ -55,10 +57,15 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
 
         private async Task SendEmailInternalAsync(Message message)
         {
+            var requestBody = new SendMailPostRequestBody
+            {
+                Message = message,
+                SaveToSentItems = true
+            };
+
             await _client.Users[_sender]
-                .SendMail(message)
-                .Request()
-                .PostAsync();
+                .SendMail
+                .PostAsync(requestBody);
         }
     }
 }
