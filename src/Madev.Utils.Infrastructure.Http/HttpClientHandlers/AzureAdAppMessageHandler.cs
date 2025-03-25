@@ -27,7 +27,7 @@ namespace Madev.Utils.Infrastructure.Http.HttpClientHandlers
             var token = await _credential.GetTokenAsync(new TokenRequestContext(_scopes), cancellationToken);
 
             request.Headers.Remove("Authorization");
-            request.Headers.Add("Authorization", "Bearer " + token);
+            request.Headers.Add("Authorization", "Bearer " + token.Token);
             return await base.SendAsync(request, cancellationToken)
                 .ConfigureAwait(false);
         }
