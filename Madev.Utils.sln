@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Madev.Utils.Infrastructure.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Madev.Utils.Infrastructure.Services.Mailing.Mailkit", "src\Madev.Utils.Infrastructure.Services.Mailing.Mailkit\Madev.Utils.Infrastructure.Services.Mailing.Mailkit.csproj", "{515D375F-2A74-4DD8-B82F-DB066532B6D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Madev.Utils.Infrastructure.Hangfire", "src\Madev.Utils.Infrastructure.Hangfire\Madev.Utils.Infrastructure.Hangfire.csproj", "{CD1791BD-5AC3-4039-8E59-FB64167F26CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{515D375F-2A74-4DD8-B82F-DB066532B6D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{515D375F-2A74-4DD8-B82F-DB066532B6D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{515D375F-2A74-4DD8-B82F-DB066532B6D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD1791BD-5AC3-4039-8E59-FB64167F26CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD1791BD-5AC3-4039-8E59-FB64167F26CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD1791BD-5AC3-4039-8E59-FB64167F26CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD1791BD-5AC3-4039-8E59-FB64167F26CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

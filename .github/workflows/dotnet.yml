@@ -17,6 +17,8 @@ jobs:
           - src/Madev.Utils.Infrastructure.Services.Mailing/Madev.Utils.Infrastructure.Services.Mailing.csproj
           - src/Madev.Utils.Infrastructure.Services.Mailing.Mailkit/Madev.Utils.Infrastructure.Services.Mailing.Mailkit.csproj
           - src/Madev.Utils.Infrastructure.Services.Mailing.MsGraph/Madev.Utils.Infrastructure.Services.Mailing.MsGraph.csproj
+          - src/Madev.Utils.Infrastructure.Hangfire/Madev.Utils.Infrastructure.Hangfire.csproj
+          
 
     steps:
     - name: Checkout repository
