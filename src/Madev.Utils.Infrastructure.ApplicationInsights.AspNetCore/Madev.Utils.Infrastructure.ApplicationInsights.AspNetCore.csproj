@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	  <Authors>Miroslav Adamec</Authors>
+	  <Company>Madev</Company>
+	  <Description>Application insghts telemetry setup</Description>
+	  <PackageProjectUrl>https://github.com/madev/Madev.Utils</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/madev/Madev.Utils</RepositoryUrl>
+	  <PackageTags>mirecad madev telemetry application insights tools utils extensions</PackageTags>
+	  <PackageIconUrl>https://madevfiles.blob.core.windows.net/$web/Madev/madev-icon.png</PackageIconUrl>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+	</ItemGroup>
+
+</Project>
