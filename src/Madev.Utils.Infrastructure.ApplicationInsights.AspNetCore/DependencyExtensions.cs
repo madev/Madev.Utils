@@ -6,11 +6,12 @@ namespace Madev.Utils.Infrastructure.ApplicationInsights.AspNetCore;
 
 public static class DependencyExtensions
 {
-    public static IServiceCollection AddMadevApplicationInsightsTelemetry(this IServiceCollection services, 
+    public static IServiceCollection AddMadevApplicationInsightsTelemetry(this IServiceCollection services,
+        string connectionString,
         string roleName,
         string[] excludedOperations = null)
     {
-        services.AddApplicationInsightsTelemetry();
+        services.AddApplicationInsightsTelemetry(conf => conf.ConnectionString = connectionString);
         services.AddSingleton<ITelemetryInitializer>(new RoleNameTelemetryInitializer(roleName));
 
         excludedOperations ??= [];
