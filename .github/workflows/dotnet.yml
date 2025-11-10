@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         project:
+          - src/Madev.Utils.Infrastructure.ApplicationInsights.WorkerService/Madev.Utils.Infrastructure.ApplicationInsights.WorkerService.csproj
           - src/Madev.Utils.Infrastructure.ApplicationInsights.AspNetCore/Madev.Utils.Infrastructure.ApplicationInsights.AspNetCore.csproj
           - src/Madev.Utils.Infrastructure.Http/Madev.Utils.Infrastructure.Http.csproj
           - src/Madev.Utils.Infrastructure.Services.Mailing/Madev.Utils.Infrastructure.Services.Mailing.csproj
