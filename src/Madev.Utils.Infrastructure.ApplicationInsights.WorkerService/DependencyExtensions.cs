@@ -1,17 +1,17 @@
-﻿using Microsoft.ApplicationInsights.AspNetCore;
-using Microsoft.ApplicationInsights.Extensibility;
+﻿using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.ApplicationInsights.WorkerService;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Madev.Utils.Infrastructure.ApplicationInsights.AspNetCore;
+namespace Madev.Utils.Infrastructure.ApplicationInsights.WorkerService;
 
 public static class DependencyExtensions
 {
-    public static IServiceCollection AddMadevApplicationInsightsTelemetry(this IServiceCollection services,
+    public static IServiceCollection AddMadevApplicationInsightsWorkerServiceTelemetry(this IServiceCollection services,
         string connectionString,
         string roleName,
         string[]? excludedOperations = null)
     {
-        services.AddApplicationInsightsTelemetry(conf => conf.ConnectionString = connectionString);
+        services.AddApplicationInsightsTelemetryWorkerService(config => config.ConnectionString = connectionString);
         services.AddSingleton<ITelemetryInitializer>(new RoleNameTelemetryInitializer(roleName));
 
         excludedOperations ??= [];

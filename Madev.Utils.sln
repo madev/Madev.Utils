@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Madev.Utils.Infrastructure.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Madev.Utils.Infrastructure.ApplicationInsights.AspNetCore", "src\Madev.Utils.Infrastructure.ApplicationInsights.AspNetCore\Madev.Utils.Infrastructure.ApplicationInsights.AspNetCore.csproj", "{6E266322-CCCA-4774-892B-30F1690FD734}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Madev.Utils.Infrastructure.ApplicationInsights.WorkerService", "src\Madev.Utils.Infrastructure.ApplicationInsights.WorkerService\Madev.Utils.Infrastructure.ApplicationInsights.WorkerService.csproj", "{9C8C911F-6BCF-4027-A088-FBA9104B7F7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
