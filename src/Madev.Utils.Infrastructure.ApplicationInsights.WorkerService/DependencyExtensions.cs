@@ -9,7 +9,7 @@ public static class DependencyExtensions
     public static IServiceCollection AddMadevApplicationInsightsWorkerServiceTelemetry(this IServiceCollection services,
         string connectionString,
         string roleName,
-        string[] excludedOperations = null)
+        string[]? excludedOperations = null)
     {
         services.AddApplicationInsightsTelemetryWorkerService(config => config.ConnectionString = connectionString);
         services.AddSingleton<ITelemetryInitializer>(new RoleNameTelemetryInitializer(roleName));
