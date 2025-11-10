@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Authors>Miroslav Adamec</Authors>
+	  <Company>Madev</Company>
+	  <Description>Application insghts telemetry setup</Description>
+	  <PackageProjectUrl>https://github.com/madev/Madev.Utils</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/madev/Madev.Utils</RepositoryUrl>
+	  <PackageTags>mirecad madev telemetry application insights worker service tools utils extensions</PackageTags>
+	  <PackageIconUrl>https://madevfiles.blob.core.windows.net/$web/Madev/madev-icon.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.23.0" />
+	</ItemGroup>
+</Project>
