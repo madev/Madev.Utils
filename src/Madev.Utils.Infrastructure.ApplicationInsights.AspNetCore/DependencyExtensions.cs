@@ -12,6 +12,21 @@ public static class DependencyExtensions
         string[]? excludedOperations = null)
     {
         services.AddApplicationInsightsTelemetry(conf => conf.ConnectionString = connectionString);
+        RegisterRest(services, roleName, excludedOperations);
+        return services;
+    }
+
+    public static IServiceCollection AddMadevApplicationInsightsTelemetry(this IServiceCollection services,
+        string roleName,
+        string[]? excludedOperations = null)
+    {
+        services.AddApplicationInsightsTelemetry();
+        RegisterRest(services, roleName, excludedOperations);
+        return services;
+    }
+
+    private static void RegisterRest(IServiceCollection services, string roleName, string[]? excludedOperations)
+    {
         services.AddSingleton<ITelemetryInitializer>(new RoleNameTelemetryInitializer(roleName));
 
         excludedOperations ??= [];
@@ -19,7 +34,5 @@ public static class DependencyExtensions
         {
             services.AddSingleton<ITelemetryProcessorFactory>(new TelemetryProcessorFactory(excludedOperations));
         }
-
-        return services;
     }
 }
