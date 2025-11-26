@@ -2,11 +2,12 @@
 
 namespace Madev.Utils.Infrastructure.Services.Mailing
 {
-    public class FilepathEmailAttachment : IEmailAttachment
+    public class Base64EmailAttachment : IEmailAttachment
     {
-        public FilepathEmailAttachment(string path, bool isInline = false, string? contentId = null, string? contentType = null)
+        public Base64EmailAttachment(string filename, string content, bool isInline = false, string? contentId = null, string? contentType = null)
         {
-            Path = path ?? throw new ArgumentException($"{nameof(path)} cannot be empty.");
+            FileName = filename;
+            Content = content;
             IsInline = isInline;
 
             if (IsInline && contentId == null)
@@ -21,9 +22,10 @@ namespace Madev.Utils.Infrastructure.Services.Mailing
             }
         }
 
-        public string Path { get; }
+        public string FileName { get; }
+        public string Content { get; }
         public string? ContentId { get; set; }
-        public bool IsInline { get ; set ; }
-        public string? ContentType { get ; set ; } = "application/octet-stream";
+        public bool IsInline { get; set; }
+        public string? ContentType { get; set; } = "application/octet-stream";
     }
 }
