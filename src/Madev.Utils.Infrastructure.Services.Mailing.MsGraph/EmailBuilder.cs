@@ -57,7 +57,7 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
 
         private FileAttachment ConvertToFileAttachment(IEmailAttachment attachment)
         {
-            return attachment switch
+            var convertedAttachment = attachment switch
             {
                 ByteEmailAttachment att => new FileAttachment
                 {
@@ -71,6 +71,7 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
                 },
                 _ => throw new InvalidOperationException("Unknown attachment type.")
             };
+            return convertedAttachment;
         }
     }
 }

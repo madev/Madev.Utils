@@ -96,7 +96,25 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.Mailkit
             {
                 foreach (var attachment in attachments)
                 {
-                    switch (attachment)
+                    var convertedAttachment = attachment switch
+                    {
+                        FilepathEmailAttachment att => builder.Attachments.Add(
+                            Path.GetFileName(att.Path),
+                            File.ReadAllBytes(att.Path),
+                            ContentType.Parse(att.ContentType)
+                        ),
+                        ByteEmailAttachment att => builder.Attachments.Add(
+                            att.Filename,
+                            att.Content,
+                            ContentType.Parse(att.ContentType)
+                        ),
+                        Base64EmailAttachment att => builder.Attachments.Add(
+                            att.FileName,
+                            Convert.FromBase64String(att.Content),
+                            ContentType.Parse(att.ContentType)
+                        ),
+                        _ => throw new InvalidOperationException("Unknown attachment type.")
+                    };
                     {
                         case FilepathEmailAttachment att:
                             var filename = Path.GetFileName(att.Path);
