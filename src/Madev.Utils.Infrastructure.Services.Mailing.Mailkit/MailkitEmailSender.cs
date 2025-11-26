@@ -115,17 +115,11 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.Mailkit
                         ),
                         _ => throw new InvalidOperationException("Unknown attachment type.")
                     };
+
+                    if (attachment.IsInline)
                     {
-                        case FilepathEmailAttachment att:
-                            var filename = Path.GetFileName(att.Path);
-                            var content = File.ReadAllBytes(att.Path);
-                            builder.Attachments.Add(filename, content);
-                            break;
-                        case ByteEmailAttachment att:
-                            builder.Attachments.Add(att.Filename, att.Content);
-                            break;
-                        default:
-                            throw new InvalidOperationException("Unknown attachment type.");
+                        convertedAttachment.ContentId = attachment.ContentId;
+                        convertedAttachment.ContentDisposition = new ContentDisposition(ContentDisposition.Inline);
                     }
                 }
             }

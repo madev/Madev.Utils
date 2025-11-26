@@ -61,16 +61,31 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
             {
                 ByteEmailAttachment att => new FileAttachment
                 {
-                    Name = att.Filename, ContentBytes = att.Content, ContentType = "application/octet-stream"
+                    Name = att.Filename,
+                    ContentBytes = att.Content,
+                    ContentType = attachment.ContentType
                 },
                 FilepathEmailAttachment att => new FileAttachment
                 {
                     Name = Path.GetFileName(att.Path),
                     ContentBytes = File.ReadAllBytes(att.Path),
-                    ContentType = "application/octet-stream"
+                    ContentType = attachment.ContentType
+                },
+                Base64EmailAttachment att => new FileAttachment
+                {
+                    Name = att.FileName,
+                    ContentBytes = Convert.FromBase64String(att.Content),
+                    ContentType = attachment.ContentType
                 },
                 _ => throw new InvalidOperationException("Unknown attachment type.")
             };
+
+            if (attachment.IsInline)
+            {
+                convertedAttachment.IsInline = true;
+                convertedAttachment.ContentId = attachment.ContentId;
+            }
+
             return convertedAttachment;
         }
     }
