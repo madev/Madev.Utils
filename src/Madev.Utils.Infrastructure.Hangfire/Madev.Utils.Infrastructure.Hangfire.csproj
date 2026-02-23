@@ -6,7 +6,7 @@
 
     <Authors>Miroslav Adamec</Authors>
     <Company>Madev</Company>
-    <Description>Hangfire background job scheduler etilities and extensions</Description>
+    <Description>Hangfire background job scheduler utilities and extensions</Description>
     <PackageProjectUrl>https://github.com/madev/Madev.Utils</PackageProjectUrl>
     <RepositoryUrl>https://github.com/madev/Madev.Utils</RepositoryUrl>
     <PackageTags>mirecad madev hangfire tools utils extensions</PackageTags>
