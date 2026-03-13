@@ -19,10 +19,9 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.Mailkit
         {
             _options = options.Value;
 
-            var isAddressFormat = _options.Username.Contains("@");
-            if (isAddressFormat == false)
+            if (_options.Sender == null && !_options.Username.Contains("@"))
             {
-                throw new FormatException($"Username must be in email address format.");
+                throw new FormatException($"Username must be in email address format when Sender is not set.");
             }
 
             _smtpClient = new SmtpClient();
@@ -78,7 +77,7 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.Mailkit
 
         private MimeMessage ConstructMessageHeaders(MimeMessage message, IEnumerable<string> toAddress, string subject)
         {
-            message.From.Add(MailboxAddress.Parse(_options.Username));
+            message.From.Add(MailboxAddress.Parse(_options.Sender ?? _options.Username));
             foreach (var address in toAddress)
             {
                 message.To.Add(MailboxAddress.Parse(address));
