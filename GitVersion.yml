@@ -8,6 +8,8 @@ branches:
     is-release-branch: true
     is-main-branch: true
     increment: Patch
+  pull-request:
+    is-main-branch: false
 commit-message-incrementing: Enabled
 ignore:
   sha: []

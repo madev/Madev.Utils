@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
@@ -18,44 +19,38 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
             _sender = sender;
         }
 
-        public async Task SendTextEmailAsync(string toAddress, string subject, string body, IEnumerable<IEmailAttachment>? attachments = null)
+        public async Task SendHtmlEmailAsync(EmailMessage message, CancellationToken cancellationToken = default)
         {
-            attachments ??= new List<IEmailAttachment>();
-            await SendTextEmailAsync(new List<string>() { toAddress }, subject, body, attachments);
+            await SendEmailAsync(email => email
+                .To(message.To)
+                .Cc(message.Cc)
+                .Bcc(message.Bcc)
+                .From(message.From)
+                .Subject(message.Subject)
+                .Body(message.Body, BodyType.Html)
+                .Attachments(message.Attachments), cancellationToken);
         }
 
-        public async Task SendTextEmailAsync(IEnumerable<string> toAddress, string subject, string body, IEnumerable<IEmailAttachment>? attachments = null)
+        public async Task SendTextEmailAsync(EmailMessage message, CancellationToken cancellationToken = default)
         {
-            attachments ??= new List<IEmailAttachment>();
-            await SendEmailAsync(email => email.To(toAddress)
-                .Subject(subject)
-                .Body(body, BodyType.Text)
-                .Attachments(attachments));
+            await SendEmailAsync(email => email
+                .To(message.To)
+                .Cc(message.Cc)
+                .Bcc(message.Bcc)
+                .From(message.From)
+                .Subject(message.Subject)
+                .Body(message.Body, BodyType.Text)
+                .Attachments(message.Attachments), cancellationToken);
         }
 
-        public async Task SendHtmlEmailAsync(string toAddress, string subject, string body, IEnumerable<IEmailAttachment>? attachments = null)
-        {
-            attachments ??= new List<IEmailAttachment>();
-            await SendHtmlEmailAsync(new List<string>() { toAddress }, subject, body, attachments);
-        }
-
-        public async Task SendHtmlEmailAsync(IEnumerable<string> toAddress, string subject, string body, IEnumerable<IEmailAttachment>? attachments = null)
-        {
-            attachments ??= new List<IEmailAttachment>();
-            await SendEmailAsync(email => email.To(toAddress)
-                .Subject(subject)
-                .Body(body, BodyType.Html)
-                .Attachments(attachments));
-        }
-
-        private async Task SendEmailAsync(Action<EmailBuilder> builder)
+        private async Task SendEmailAsync(Action<EmailBuilder> builder, CancellationToken cancellationToken)
         {
             var message = new Message();
             builder(new EmailBuilder(message));
-            await SendEmailInternalAsync(message);
+            await SendEmailInternalAsync(message, cancellationToken);
         }
 
-        private async Task SendEmailInternalAsync(Message message)
+        private async Task SendEmailInternalAsync(Message message, CancellationToken cancellationToken)
         {
             var requestBody = new SendMailPostRequestBody
             {
@@ -65,7 +60,7 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
 
             await _client.Users[_sender]
                 .SendMail
-                .PostAsync(requestBody);
+                .PostAsync(requestBody, cancellationToken: cancellationToken);
         }
     }
 }

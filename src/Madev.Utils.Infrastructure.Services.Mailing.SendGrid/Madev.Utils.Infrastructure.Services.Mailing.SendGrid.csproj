@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;net8.0;net10.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+	  <Authors>Miroslav Adamec</Authors>
+	  <Company>Madev</Company>
+	  <Description>Send emails using SendGrid</Description>
+	  <PackageProjectUrl>https://github.com/madev/Madev.Utils</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/madev/Madev.Utils</RepositoryUrl>
+	  <PackageTags>mirecad madev emails sendgrid tools utils extensions</PackageTags>
+	  <PackageIconUrl>https://madevfiles.blob.core.windows.net/$web/Madev/madev-icon.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SendGrid" Version="9.29.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Madev.Utils.Infrastructure.Services.Mailing\Madev.Utils.Infrastructure.Services.Mailing.csproj" />
+  </ItemGroup>
+
+</Project>

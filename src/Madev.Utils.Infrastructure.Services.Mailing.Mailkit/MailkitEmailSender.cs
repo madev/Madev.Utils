@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using MailKit;
 using MailKit.Net.Smtp;
@@ -31,106 +32,95 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.Mailkit
             }
         }
 
-        public async Task SendTextEmailAsync(string toAddress, string subject, string body, IEnumerable<IEmailAttachment> attachments = null)
+        public async Task SendHtmlEmailAsync(EmailMessage message, CancellationToken cancellationToken = default)
         {
-            attachments ??= new List<IEmailAttachment>();
-            await SendTextEmailAsync(new List<string>() { toAddress }, subject, body, attachments);
+            var mimeMessage = ConstructHtmlMimeMessage(message);
+            await SendMimeMessageAsync(mimeMessage, cancellationToken);
         }
 
-        public async Task SendTextEmailAsync(IEnumerable<string> toAddress, string subject, string body, IEnumerable<IEmailAttachment> attachments = null)
+        public async Task SendTextEmailAsync(EmailMessage message, CancellationToken cancellationToken = default)
         {
-            attachments ??= new List<IEmailAttachment>();
-            var message = ConstructTextMimeMessage(toAddress, subject, body, attachments);
-            await SendMimeMessageAsync(message);
+            var mimeMessage = ConstructTextMimeMessage(message);
+            await SendMimeMessageAsync(mimeMessage, cancellationToken);
         }
 
-        public async Task SendHtmlEmailAsync(string toAddress, string subject, string body, IEnumerable<IEmailAttachment> attachments = null)
+        private MimeMessage ConstructHtmlMimeMessage(EmailMessage message)
         {
-            attachments ??= new List<IEmailAttachment>();
-            await SendHtmlEmailAsync(new List<string>() { toAddress }, subject, body, attachments);
+            var mimeMessage = new MimeMessage();
+            mimeMessage = ConstructMessageHeaders(mimeMessage, message);
+            mimeMessage = ConstructMessageBody(mimeMessage, message.Body, null, message.Attachments);
+            return mimeMessage;
         }
 
-        public async Task SendHtmlEmailAsync(IEnumerable<string> toAddress, string subject, string body, IEnumerable<IEmailAttachment> attachments = null)
+        private MimeMessage ConstructTextMimeMessage(EmailMessage message)
         {
-            attachments ??= new List<IEmailAttachment>();
-            var message = ConstructHtmlMimeMessage(toAddress, subject, body, attachments);
-            await SendMimeMessageAsync(message);
+            var mimeMessage = new MimeMessage();
+            mimeMessage = ConstructMessageHeaders(mimeMessage, message);
+            mimeMessage = ConstructMessageBody(mimeMessage, null, message.Body, message.Attachments);
+            return mimeMessage;
         }
 
-        private MimeMessage ConstructTextMimeMessage(IEnumerable<string> toAddress,
-            string subject, string body, IEnumerable<IEmailAttachment> attachments)
+        private MimeMessage ConstructMessageHeaders(MimeMessage mimeMessage, EmailMessage message)
         {
-            var message = new MimeMessage();
-            message = ConstructMessageHeaders(message, toAddress, subject);
-            message = ConstructMessageBody(message, null, body, attachments);
-            return message;
-        }
-
-        private MimeMessage ConstructHtmlMimeMessage(IEnumerable<string> toAddress,
-            string subject, string body, IEnumerable<IEmailAttachment> attachments)
-        {
-            var message = new MimeMessage();
-            message = ConstructMessageHeaders(message, toAddress, subject);
-            message = ConstructMessageBody(message, body, null, attachments);
-            return message;
-        }
-
-        private MimeMessage ConstructMessageHeaders(MimeMessage message, IEnumerable<string> toAddress, string subject)
-        {
-            message.From.Add(MailboxAddress.Parse(_options.Sender ?? _options.Username));
-            foreach (var address in toAddress)
+            mimeMessage.From.Add(MailboxAddress.Parse(message.From ?? _options.Sender ?? _options.Username));
+            foreach (var address in message.To)
             {
-                message.To.Add(MailboxAddress.Parse(address));
+                mimeMessage.To.Add(MailboxAddress.Parse(address));
             }
-            message.Subject = subject;
-            return message;
+            foreach (var address in message.Cc)
+            {
+                mimeMessage.Cc.Add(MailboxAddress.Parse(address));
+            }
+            foreach (var address in message.Bcc)
+            {
+                mimeMessage.Bcc.Add(MailboxAddress.Parse(address));
+            }
+            mimeMessage.Subject = message.Subject;
+            return mimeMessage;
         }
 
-        private MimeMessage ConstructMessageBody(MimeMessage message, string htmlBody, string textBody, IEnumerable<IEmailAttachment> attachments)
+        private MimeMessage ConstructMessageBody(MimeMessage message, string? htmlBody, string? textBody, IEnumerable<IEmailAttachment> attachments)
         {
             var builder = new BodyBuilder();
             builder.HtmlBody = htmlBody;
             builder.TextBody = textBody;
-            if (attachments != null)
+            foreach (var attachment in attachments)
             {
-                foreach (var attachment in attachments)
+                var convertedAttachment = attachment switch
                 {
-                    var convertedAttachment = attachment switch
-                    {
-                        FilepathEmailAttachment att => builder.Attachments.Add(
-                            Path.GetFileName(att.Path),
-                            File.ReadAllBytes(att.Path),
-                            ContentType.Parse(att.ContentType)
-                        ),
-                        ByteEmailAttachment att => builder.Attachments.Add(
-                            att.Filename,
-                            att.Content,
-                            ContentType.Parse(att.ContentType)
-                        ),
-                        Base64EmailAttachment att => builder.Attachments.Add(
-                            att.FileName,
-                            Convert.FromBase64String(att.Content),
-                            ContentType.Parse(att.ContentType)
-                        ),
-                        _ => throw new InvalidOperationException("Unknown attachment type.")
-                    };
+                    FilepathEmailAttachment att => builder.Attachments.Add(
+                        Path.GetFileName(att.Path),
+                        File.ReadAllBytes(att.Path),
+                        ContentType.Parse(att.ContentType)
+                    ),
+                    ByteEmailAttachment att => builder.Attachments.Add(
+                        att.Filename,
+                        att.Content,
+                        ContentType.Parse(att.ContentType)
+                    ),
+                    Base64EmailAttachment att => builder.Attachments.Add(
+                        att.FileName,
+                        Convert.FromBase64String(att.Content),
+                        ContentType.Parse(att.ContentType)
+                    ),
+                    _ => throw new InvalidOperationException("Unknown attachment type.")
+                };
 
-                    if (attachment.IsInline)
-                    {
-                        convertedAttachment.ContentId = attachment.ContentId;
-                        convertedAttachment.ContentDisposition = new ContentDisposition(ContentDisposition.Inline);
-                    }
+                if (attachment.IsInline)
+                {
+                    convertedAttachment.ContentId = attachment.ContentId;
+                    convertedAttachment.ContentDisposition = new ContentDisposition(ContentDisposition.Inline);
                 }
             }
             message.Body = builder.ToMessageBody();
             return message;
         }
 
-        private async Task SendMimeMessageAsync(MimeMessage message)
+        private async Task SendMimeMessageAsync(MimeMessage message, CancellationToken cancellationToken)
         {
             try
             {
-                await _smtpClient.SendAsync(message);
+                await _smtpClient.SendAsync(message, cancellationToken);
                 return;
             }
             catch (ServiceNotConnectedException)
@@ -145,7 +135,7 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.Mailkit
                     Connect();
                 }
             }
-            _smtpClient.Send(message);
+            _smtpClient.Send(message, cancellationToken);
         }
 
         private void Connect()
