@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="src/Madev.Utils.Infrastructure.ApplicationInsights.AspNetCore/Madev.Utils.Infrastructure.ApplicationInsights.AspNetCore.csproj" />
+  <Project Path="src/Madev.Utils.Infrastructure.ApplicationInsights.WorkerService/Madev.Utils.Infrastructure.ApplicationInsights.WorkerService.csproj" />
+  <Project Path="src/Madev.Utils.Infrastructure.Hangfire/Madev.Utils.Infrastructure.Hangfire.csproj" />
+  <Project Path="src/Madev.Utils.Infrastructure.Http/Madev.Utils.Infrastructure.Http.csproj" />
+  <Project Path="src/Madev.Utils.Infrastructure.Services.Mailing.Mailkit/Madev.Utils.Infrastructure.Services.Mailing.Mailkit.csproj" />
+  <Project Path="src/Madev.Utils.Infrastructure.Services.Mailing.MsGraph/Madev.Utils.Infrastructure.Services.Mailing.MsGraph.csproj" />
+  <Project Path="src/Madev.Utils.Infrastructure.Services.Mailing.SendGrid/Madev.Utils.Infrastructure.Services.Mailing.SendGrid.csproj" />
+  <Project Path="src/Madev.Utils.Infrastructure.Services.Mailing/Madev.Utils.Infrastructure.Services.Mailing.csproj" />
+</Solution>
