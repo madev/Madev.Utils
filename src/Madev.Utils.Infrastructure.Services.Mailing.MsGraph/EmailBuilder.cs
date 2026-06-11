@@ -27,6 +27,45 @@ namespace Madev.Utils.Infrastructure.Services.Mailing.MsGraph
             return this;
         }
 
+        public EmailBuilder Cc(IEnumerable<string> recipients)
+        {
+            _email.CcRecipients = recipients.Select(x => new Recipient
+            {
+                EmailAddress = new EmailAddress
+                {
+                    Address = x
+                }
+            }).ToList();
+            return this;
+        }
+
+        public EmailBuilder Bcc(IEnumerable<string> recipients)
+        {
+            _email.BccRecipients = recipients.Select(x => new Recipient
+            {
+                EmailAddress = new EmailAddress
+                {
+                    Address = x
+                }
+            }).ToList();
+            return this;
+        }
+
+        public EmailBuilder From(string? from)
+        {
+            if (from != null)
+            {
+                _email.From = new Recipient
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = from
+                    }
+                };
+            }
+            return this;
+        }
+
         public EmailBuilder Subject(string subject)
         {
             _email.Subject = subject;
