@@ -13,36 +13,24 @@ public class OpenAiService : IOpenAiService
     private readonly AzureOpenAIClient _client;
     private readonly string _deploymentModel;
     private readonly string _systemChatMessage;
-    private readonly ChatCompletionOptions? _chatOptions;
+    private readonly ChatCompletionOptions _chatOptions;
 
     public OpenAiService(OpenAiServiceOptions options, TokenCredential credential)
     {
         _client = new AzureOpenAIClient(new Uri(options.Endpoint), credential);
         _deploymentModel = options.DeploymentModel;
         _systemChatMessage = options.SystemChatMessage;
-        _chatOptions = options.Temperature.HasValue
-            ? new ChatCompletionOptions { Temperature = options.Temperature.Value }
-            : null;
+        _chatOptions = BuildChatOptions(options);
     }
 
-    public async Task<string> GetCompletionAsync(string userMessage)
+    public Task<string> GetCompletionAsync(string userMessage)
     {
-        var chatClient = _client.GetChatClient(_deploymentModel);
         var messages = new List<ChatMessage>
         {
             new SystemChatMessage(_systemChatMessage),
             new UserChatMessage(userMessage),
         };
-        var options = new ChatCompletionOptions
-        {
-            MaxOutputTokenCount = 800,
-            Temperature = 0.5f,
-            TopP = 0.95f,
-            FrequencyPenalty = 0,
-            PresencePenalty = 0,
-        };
-        var response = await chatClient.CompleteChatAsync(messages, options);
-        return response.Value.Content[0].Text;
+        return SendChatAsync(messages, CancellationToken.None);
     }
 
     public Task<string> GetCompletionAsync(
@@ -77,6 +65,17 @@ public class OpenAiService : IOpenAiService
                 ChatMessageContentPart.CreateImagePart(BinaryData.FromBytes(imageContent), imageMimeType)),
         };
         return SendChatAsync(messages, cancellationToken);
+    }
+
+    private static ChatCompletionOptions BuildChatOptions(OpenAiServiceOptions options)
+    {
+        var chatOptions = new ChatCompletionOptions();
+        if (options.Temperature.HasValue) chatOptions.Temperature = options.Temperature.Value;
+        if (options.TopP.HasValue) chatOptions.TopP = options.TopP.Value;
+        if (options.FrequencyPenalty.HasValue) chatOptions.FrequencyPenalty = options.FrequencyPenalty.Value;
+        if (options.PresencePenalty.HasValue) chatOptions.PresencePenalty = options.PresencePenalty.Value;
+        if (options.MaxOutputTokenCount.HasValue) chatOptions.MaxOutputTokenCount = options.MaxOutputTokenCount.Value;
+        return chatOptions;
     }
 
     private static string BuildEffectiveUserMessage(string userMessage, string? jsonSchemaName, string? jsonSchema)
